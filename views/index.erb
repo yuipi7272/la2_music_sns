@@ -1,26 +1,43 @@
 <section class="first-view center-vertical">
 	<h1>MUSIC SNS!!!</h1>
+	<% unless session[:user] %>
 	<div class="login_button">
+		<form action="/signin" method="post">
+			<input type="text" name="name" placeholder="ユーザ名">
+			<input type="text" name="password" placeholder="パスワード">
+			<input type="submit" value="ログイン">
+		</form>
 	</div>
+	<% end %>
 </section>
 
 <section class="center-vertical">
 	<h1>最新の投稿</h1>
-
-	<div class="post center-vertical">
-		<img src="" width="125" height="125">
-		<p>artist: 〇〇</p>
-		<p>コメント: 〇〇</p>
-		<p>投稿者: 〇〇<br>
-			<a href="#">フォローする</a>
-			<a href="#">">フォロー解除</a><br>
-		</p>
-		<p>いいねしたユーザー<br>
-			<img src="" alt="user_image" width="40" height="40">
-		</p>
-		<a href="#">いいねする</a>
-	</div>
-
-	<%# TODO: ここで分岐 %>
+	<% unless @posts.nil? %>
+		<% @posts.each do |post| %>
+		<div class="post center-vertical">
+			<img src="<%= post["cd_image_url"] %>" width="125" height="125">
+			<p>artist: <%= post["artist"] %></p>
+			<p>コメント: <%= post["comment"] %></p>
+			<p>投稿者: <%= post.user["name"] %><br>
+			<!--
+				<a href="#">フォローする</a>
+				<a href="#">">フォロー解除</a><br>
+			-->
+			</p>
+			<p>いいねしたユーザー<br>
+			<% unless @likes.nil? %>
+				<% @likes.where(post_id: post["id"]).each do |like| %>
+					<img src="<%= like.user["profile_image"] %>" alt="user_image" width="40" height="40">
+				<% end %>
+			<% end %>
+			</p>
+			<% if session[:user] %>
+				<a href="/like/<%= post["id"] %>">いいねする</a>
+			<% end %>
+		</div>
+		<% end %>
+	<% else %>
 	<p>投稿がありません</p>
+	<% end %>
 </section>

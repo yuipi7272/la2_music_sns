@@ -1,13 +1,55 @@
 <section class="center-vertical">
-	<h1>〇〇の投稿</h1>
+	<h1><%= current_user["name"] %>の投稿</h1>
+	<% unless @posts.nil? %>
+		<% @posts.each do |pos| %>
+		<div class="post center-vertical">
+			<img src="<%= pos["cd_image_url"] %>">
+			<p><%= pos["artist"] %></p>
+			<p><%= pos["album"] %></p>
+			<p><%= pos["title"] %></p>
+			<a href="<%= pos["sample"] %>">サンプル</a>
+			<p>コメント:<%= pos["comment"] %></p>
+			<p>いいねしたユーザー<br>
+				<% unless @likes_all.nil? %>
+					<% @likes_all.where(post_id: pos["id"]).each do |like| %>
+						<span><%= like.user["name"] %></span>
+					<% end %>
+				<% end %>
+			</p>
+			<div>
+				<span><a href="/delete/<%= pos["id"] %>">削除</a></span>
+				<span><a href="/edit/<%= pos["id"] %>">編集</a></span>
+			</div>
+		</div>
+		<% end %>
+	<% else %>
 	<p>投稿がありません</p>
+	<% end %>
 </section>
 
 <section class="center-vertical">
-	<h1>〇〇のイイねした投稿</h1>
-	<p>イイねがありません</p>
+	<h1><%= current_user["name"] %>のイイねした投稿</h1>
+	<% unless @likes.nil? %>
+		<% @likes.each do | pos | %>
+		<div class="post center-vertical">
+				<img src="<%= pos["cd_image_url"] %>">
+				<p><%= pos["artist"] %></p>
+				<p><%= pos["album"] %></p>
+				<p><%= pos["title"] %></p>
+				<a href="<%= pos["sample"] %>">サンプル</a>
+				<p>コメント:<%= pos["comment"] %></p>
+				<div>
+					<span><a href="/delete/<%= pos["id"] %>">削除</a></span>
+					<span><a href="/edit/<%= pos["id"] %>">編集</a></span>
+				</div>
+				<a href="/delete_like/<%= pos["id"] %>">お気に入りを解除</a>
+		</div>
+		<% end %>
+	<% else %>
+		<p>イイねがありません</p>
+	<% end %>
 </section>
-
+<!--
 <section class="center-vertical">
 	<h1>〇〇 のフォロー</h1>
 	<a href="#">フォロー解除</a><br>
@@ -16,3 +58,4 @@
 <section class="center-vertical">
 	<h1>〇〇のフォロワー</h1>
 </section>
+-->

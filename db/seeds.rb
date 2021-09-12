@@ -1,0 +1,1 @@
+User.all.update_all(profile_image: "https://1.bp.blogspot.com/-zyvvuefJLQM/XkZdUNDP2UI/AAAAAAABXWU/zElc5fj6l2AnonYZne8LUzbltyzUWK0oQCNcBGAsYHQ/s400/yumekawa_animal_azarashi.png")
