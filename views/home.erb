@@ -49,13 +49,20 @@
 		<p>イイねがありません</p>
 	<% end %>
 </section>
-<!--
+
 <section class="center-vertical">
-	<h1>〇〇 のフォロー</h1>
-	<a href="#">フォロー解除</a><br>
+	<h1><%= current_user["name"] %>のフォロー</h1>
+	<% current_user.followings.each do |following| %>
+		<p>
+			<%= following["name"] %>
+			<a href="/unfollow/<%= following["id"] %>">フォロー解除</a><br>
+		</p>
+	<% end %>
 </section>
 
 <section class="center-vertical">
-	<h1>〇〇のフォロワー</h1>
+	<h1><%= current_user["name"] %>のフォロワー</h1>
+	<% current_user.followers.each do |follower| %>
+		<%= follower["name"] %>
+	<% end %>
 </section>
--->

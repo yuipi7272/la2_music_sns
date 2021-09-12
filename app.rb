@@ -67,7 +67,7 @@ post '/signin' do
     if user && user.authenticate(params[:password])
         session[:user] = user.id
     end
-    redirect '/search'
+    redirect '/'
 end
 
 get '/search' do
@@ -152,5 +152,17 @@ end
 
 get '/delete_like/:id' do 
     Like.destroy_by(post_id: params[:id], user_id: current_user["id"])
+    redirect '/home'
+end
+
+get '/follow/:other_id' do
+    other = User.find_by(id: params[:other_id])
+    current_user.follow(other)
+    redirect '/home'
+end
+
+get '/unfollow/:other_id' do
+    other = User.find_by(id: params[:other_id])
+    current_user.unfollow(other)
     redirect '/home'
 end

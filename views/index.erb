@@ -20,10 +20,13 @@
 			<p>artist: <%= post["artist"] %></p>
 			<p>コメント: <%= post["comment"] %></p>
 			<p>投稿者: <%= post.user["name"] %><br>
-			<!--
-				<a href="#">フォローする</a>
-				<a href="#">">フォロー解除</a><br>
-			-->
+			<% if session[:user] && post.user != current_user%>
+				<% unless current_user.following?(post.user) %>
+					<a href="/follow/<%= post.user["id"] %>">フォローする</a>
+				<% else %>
+					<a href="/unfollow/<%= post.user["id"] %>">">フォロー解除</a><br>
+				<% end %>
+			<% end %>
 			</p>
 			<p>いいねしたユーザー<br>
 			<% unless @likes.nil? %>
